@@ -4,6 +4,8 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(HoverControlScheme))]
+[RequireComponent(typeof(HoverAudio))]
+
 public class HoverController : MonoBehaviour
 {
     public bool engine_on = false;
@@ -31,7 +33,6 @@ public class HoverController : MonoBehaviour
     {
         car_rb = GetComponent<Rigidbody>();
         controls = GetComponent<HoverControlScheme>();
-        
     }
 
 
@@ -50,10 +51,10 @@ public class HoverController : MonoBehaviour
             DoHover();
 
             //forward/backward
-            car_rb.AddRelativeForce(0f, 0f, HoverControlScheme.InputStateToInt(controls.power_input) * thruster_speed);
+            ApplyThrust();
 
             //rotate left and right
-            car_rb.AddRelativeTorque(0f, 0f, HoverControlScheme.InputStateToInt(controls.rotate_input) * rotate_speed);
+            Rotate();
 
             //drag left and right 
             car_rb.AddRelativeForce(HoverControlScheme.InputStateToInt(controls.drag_input) * drag_speed, 0f, 0f);
@@ -64,6 +65,35 @@ public class HoverController : MonoBehaviour
 
         //turn left and right
         car_rb.AddRelativeTorque(0f, HoverControlScheme.InputStateToInt(controls.turn_input) * turn_speed, 0f);
+    }
+
+    private void Rotate()
+    {
+        float car_angle = car_rb.transform.rotation.eulerAngles.z;
+        float calculated_angle = HoverControlScheme.InputStateToInt(controls.rotate_input) * rotate_speed;
+        
+        if (car_angle > max_rotate)
+        {
+            //Debug.Log("Correcting rotation!");
+            //car_rb.angularVelocity = new Vector3(0, 0, 0);
+            car_rb.transform.eulerAngles.Set(car_rb.transform.eulerAngles.x, car_rb.transform.eulerAngles.y, max_rotate);
+        }
+        else if(car_angle < -1 * max_rotate)
+        {
+            //Debug.Log("Correcting rotation!");
+            //car_rb.angularVelocity = new Vector3(0, 0, 0);
+            car_rb.transform.eulerAngles.Set(car_rb.transform.eulerAngles.x, car_rb.transform.eulerAngles.y, -1 * max_rotate);
+        }
+        else
+        {
+            car_rb.AddRelativeTorque(0f, 0f, calculated_angle);
+        }
+        
+    }
+
+    private void ApplyThrust()
+    {
+        car_rb.AddRelativeForce(0f, 0f, HoverControlScheme.InputStateToInt(controls.power_input) * thruster_speed);
     }
 
     private void DoHover()
@@ -168,11 +198,11 @@ public class HoverController : MonoBehaviour
 
             if (Input.GetKey(controls.Rotate_Left))
             {
-                controls.rotate_input = HoverControlScheme.InputState.Negative;
+                controls.rotate_input = HoverControlScheme.InputState.Positive;
             }
             else if (Input.GetKey(controls.Rotate_Right))
             {
-                controls.rotate_input = HoverControlScheme.InputState.Positive;
+                controls.rotate_input = HoverControlScheme.InputState.Negative;
             }
             else
             {

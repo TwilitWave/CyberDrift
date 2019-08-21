@@ -447,37 +447,37 @@ PrefabInstance:
     - target: {fileID: 850628530802107922, guid: a3f80693d1f05154ba96f68c49c5d9a1,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.00829018
+      value: 0.0395364
       objectReference: {fileID: 0}
     - target: {fileID: 850628530802107922, guid: a3f80693d1f05154ba96f68c49c5d9a1,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0.9186864
       objectReference: {fileID: 0}
     - target: {fileID: 850628530802107922, guid: a3f80693d1f05154ba96f68c49c5d9a1,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: -0.09526112
       objectReference: {fileID: 0}
     - target: {fileID: 850628530802107922, guid: a3f80693d1f05154ba96f68c49c5d9a1,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.99996567
+      value: 0.38128415
       objectReference: {fileID: 0}
     - target: {fileID: 850628530802107922, guid: a3f80693d1f05154ba96f68c49c5d9a1,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -10.007332
       objectReference: {fileID: 0}
     - target: {fileID: 850628530802107922, guid: a3f80693d1f05154ba96f68c49c5d9a1,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.228248
+      value: 5.9627905
       objectReference: {fileID: 0}
     - target: {fileID: 850628530802107922, guid: a3f80693d1f05154ba96f68c49c5d9a1,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -14.915106
+      value: 9.979421
       objectReference: {fileID: 0}
     - target: {fileID: 9156609919566694241, guid: a3f80693d1f05154ba96f68c49c5d9a1,
         type: 3}
@@ -657,7 +657,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: c834a5bb08da38e4784e15641b19d2d1, type: 2}
+      objectReference: {fileID: 2100000, guid: 8668b956ca5298445987cd7fccb20455, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 11c396bea18aeea44af38734159eaa68, type: 3}
 --- !u!4 &1686904577 stripped

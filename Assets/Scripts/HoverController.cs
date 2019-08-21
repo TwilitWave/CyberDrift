@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(HoverControlScheme))]
 public class HoverController : MonoBehaviour
 {
+    public bool engine_on = false;
 
-    public float speed = 90f;
+    public float thruster_speed = 90f;
     public float turn_speed = 5f;
 
     public float hover_force = 65f;
@@ -16,41 +19,21 @@ public class HoverController : MonoBehaviour
     public float ascend_amount = 0.25f;
 
     public float drag_speed = 5f;
-
-    public bool engine_on = false;
-
-    private InputState power_input;
-    private InputState turn_input;
-    private InputState ascend_input;
-    private InputState rotate_input;
-    private InputState drag_input;
-    
-    private Rigidbody car_rb;
-
-    public enum InputState { None, Negative, Positive };
-
-    public KeyCode Forward = KeyCode.W;
-    public KeyCode Backward = KeyCode.S;
-    public KeyCode Left = KeyCode.A;
-    public KeyCode Right = KeyCode.D;
-
-    public KeyCode Rotate_Left = KeyCode.Q;
-    public KeyCode Rotate_Right = KeyCode.E;
-
     public float rotate_speed = 3f;
     public float max_rotate = 35f;
 
-    public KeyCode Ascend = KeyCode.UpArrow;
-    public KeyCode Descend = KeyCode.DownArrow;
-    public KeyCode Drag_Left = KeyCode.LeftArrow;
-    public KeyCode Drag_Right = KeyCode.RightArrow;
-
-    public KeyCode Toggle_Engine = KeyCode.F;
+    private Rigidbody car_rb;
+    private HoverControlScheme controls;
+    
+    
 
     private void Awake()
     {
         car_rb = GetComponent<Rigidbody>();
+        controls = GetComponent<HoverControlScheme>();
+        
     }
+
 
     // Dont use this update for physics based stuff!
     void Update()
@@ -67,24 +50,20 @@ public class HoverController : MonoBehaviour
             DoHover();
 
             //forward/backward
-            car_rb.AddRelativeForce(0f, 0f, InputStateToInt(power_input) * speed);
+            car_rb.AddRelativeForce(0f, 0f, HoverControlScheme.InputStateToInt(controls.power_input) * thruster_speed);
 
             //rotate left and right
-            car_rb.AddRelativeTorque(0f, 0f, InputStateToInt(rotate_input) * rotate_speed);
+            car_rb.AddRelativeTorque(0f, 0f, HoverControlScheme.InputStateToInt(controls.rotate_input) * rotate_speed);
 
             //drag left and right 
-            car_rb.AddRelativeForce(InputStateToInt(drag_input) * drag_speed, 0f, 0f);
+            car_rb.AddRelativeForce(HoverControlScheme.InputStateToInt(controls.drag_input) * drag_speed, 0f, 0f);
 
             //ascend up and down
             ModifyHoverHeight(ascend_amount);
-
         }
 
         //turn left and right
-        car_rb.AddRelativeTorque(0f, InputStateToInt(turn_input) * turn_speed, 0f);
-
-        
-        
+        car_rb.AddRelativeTorque(0f, HoverControlScheme.InputStateToInt(controls.turn_input) * turn_speed, 0f);
     }
 
     private void DoHover()
@@ -108,7 +87,7 @@ public class HoverController : MonoBehaviour
 
     private void ModifyHoverHeight(float amount)
     {
-        if (ascend_input == InputState.Positive)
+        if (controls.ascend_input == HoverControlScheme.InputState.Positive)
         {
             if (hover_height + amount > ascend_max)
             {
@@ -119,7 +98,7 @@ public class HoverController : MonoBehaviour
                 hover_height += amount;
             }
         }
-        else if (ascend_input == InputState.Negative)
+        else if (controls.ascend_input == HoverControlScheme.InputState.Negative)
         {
             if (hover_height - amount < ascend_min)
             {
@@ -148,96 +127,78 @@ public class HoverController : MonoBehaviour
     {
         if (engine_on)
         {
-            if (Input.GetKey(Forward))
+            if (Input.GetKey(controls.Forward))
             {
-                power_input = InputState.Positive;
+                controls.power_input = HoverControlScheme.InputState.Positive;
             }
-            else if (Input.GetKey(Backward))
+            else if (Input.GetKey(controls.Backward))
             {
-                power_input = InputState.Negative;
+                controls.power_input = HoverControlScheme.InputState.Negative;
             }
             else
             {
-                power_input = InputState.None;
+                controls.power_input = HoverControlScheme.InputState.None;
             }
 
-            if (Input.GetKey(Left))
+            if (Input.GetKey(controls.Left))
             {
-                turn_input = InputState.Negative;
+                controls.turn_input = HoverControlScheme.InputState.Negative;
             }
-            else if (Input.GetKey(Right))
+            else if (Input.GetKey(controls.Right))
             {
-                turn_input = InputState.Positive;
+                controls.turn_input = HoverControlScheme.InputState.Positive;
             }
             else
             {
-                turn_input = InputState.None;
+                controls.turn_input = HoverControlScheme.InputState.None;
             }
 
-            if (Input.GetKey(Ascend))
+            if (Input.GetKey(controls.Ascend))
             {
-                ascend_input = InputState.Positive;
+                controls.ascend_input = HoverControlScheme.InputState.Positive;
             }
-            else if (Input.GetKey(Descend))
+            else if (Input.GetKey(controls.Descend))
             {
-                ascend_input = InputState.Negative;
+                controls.ascend_input = HoverControlScheme.InputState.Negative;
             }
             else
             {
-                ascend_input = InputState.None;
+                controls.ascend_input = HoverControlScheme.InputState.None;
             }
 
-            if (Input.GetKey(Rotate_Left))
+            if (Input.GetKey(controls.Rotate_Left))
             {
-                rotate_input = InputState.Negative;
+                controls.rotate_input = HoverControlScheme.InputState.Negative;
             }
-            else if (Input.GetKey(Rotate_Right))
+            else if (Input.GetKey(controls.Rotate_Right))
             {
-                rotate_input = InputState.Positive;
+                controls.rotate_input = HoverControlScheme.InputState.Positive;
             }
             else
             {
-                rotate_input = InputState.None;
+                controls.rotate_input = HoverControlScheme.InputState.None;
             }
 
-            if (Input.GetKey(Drag_Left))
+            if (Input.GetKey(controls.Drag_Left))
             {
-                drag_input = InputState.Negative;
+                controls.drag_input = HoverControlScheme.InputState.Negative;
             }
-            else if (Input.GetKey(Drag_Right))
+            else if (Input.GetKey(controls.Drag_Right))
             {
-                drag_input = InputState.Positive;
+                controls.drag_input = HoverControlScheme.InputState.Positive;
             }
             else
             {
-                drag_input = InputState.None;
+                controls.drag_input = HoverControlScheme.InputState.None;
             }
         }
 
 
-        if (Input.GetKeyDown(Toggle_Engine))
+        if (Input.GetKeyDown(controls.Toggle_Engine))
         {
             ToggleEngine();
         }
     }
 
-    public int InputStateToInt(InputState state)
-    {
-        if (state == InputState.None)
-        {
-            return 0;
-        }
-        else if (state == InputState.Negative)
-        {
-            return -1;
-        }
-        else if (state == InputState.Positive)
-        {
-            return 1;
-        }
-        else
-        {
-            return 0;
-        }
-    }
+    
 }

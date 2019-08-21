@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HoverAudio : MonoBehaviour
 {
-    public AudioSource clip;
+    private AudioSource clip;
     private float pitch;
     private const float low_pitch = 0.1f;
     private const float high_pitch = 2.0f;
@@ -16,10 +16,13 @@ public class HoverAudio : MonoBehaviour
     private void Awake()
     {
         car_rb = GetComponent<Rigidbody>();
+        clip = GetComponent<AudioSource>();
     }
 
     private void FixedUpdate()
     {
+        clip.mute = false;
+
         velocity = car_rb.velocity; //get velocity of car
         float forward_speed = transform.InverseTransformDirection(car_rb.velocity).z;
         float engine_revs = Mathf.Abs(forward_speed) * speed_to_revs;

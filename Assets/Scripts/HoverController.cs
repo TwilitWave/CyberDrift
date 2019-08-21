@@ -25,7 +25,7 @@ public class HoverController : MonoBehaviour
     {
         power_input = Input.GetAxis("Vertical");
         turn_input = Input.GetAxis("Horizontal");
-        Debug.Log(power_input);
+       // Debug.Log(power_input);
     }
 
     private void FixedUpdate()

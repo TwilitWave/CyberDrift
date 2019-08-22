@@ -29,9 +29,9 @@ public class CameraRigManager : MonoBehaviour
             Cameras.Add(camera);
         }
 
-        Debug.Log("Found " + Cameras.Count + " cameras");
+        Debug.Log(this.name + ": Found " + Cameras.Count + " cameras");
 
-        SwitchTo(Camera.Wide);
+        SwitchTo(CurrentCamera);
 
     }
 

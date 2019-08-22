@@ -54,10 +54,10 @@ public class HoverController : MonoBehaviour
             ApplyThrust();
 
             //rotate left and right
-            Rotate();
+           // Rotate();
 
             //drag left and right 
-            car_rb.AddRelativeForce(HoverControlScheme.InputStateToInt(controls.drag_input) * drag_speed, 0f, 0f);
+            //car_rb.AddRelativeForce(HoverControlScheme.InputStateToInt(controls.drag_input) * drag_speed, 0f, 0f);
 
             //ascend up and down
             ModifyHoverHeight(ascend_amount);
@@ -96,7 +96,7 @@ public class HoverController : MonoBehaviour
         car_rb.AddRelativeForce(0f, 0f, HoverControlScheme.InputStateToInt(controls.power_input) * thruster_speed);
     }
 
-    private void DoHover()
+    private void Deprecated_DoHover()
     {
         Ray ray = new Ray(transform.position, -transform.up);
         RaycastHit hit;
@@ -108,11 +108,16 @@ public class HoverController : MonoBehaviour
             float proportional_height = (hover_height - hit.distance) / hover_height;
 
             //scale hover force based on prop. height 
-            Vector3 applied_hover_force = Vector3.up * proportional_height * hover_force;
+            Vector3 applied_hover_force = Vector3.up  * hover_force; //* proportional_height
 
             //apply force to rigid body, ignore the mass of the car (for better hover)
             car_rb.AddForce(applied_hover_force, ForceMode.Acceleration);
         }
+    }
+
+    private void DoHover()
+    {
+
     }
 
     private void ModifyHoverHeight(float amount)
@@ -146,10 +151,12 @@ public class HoverController : MonoBehaviour
         if (engine_on)
         {
             engine_on = false;
+            car_rb.useGravity = true;
         }
         else
         {
             engine_on = true;
+            car_rb.useGravity = false;
         }
     }
 

@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 23000012334980054}
   - component: {fileID: 64000012779670410}
   m_Layer: 0
-  m_Name: FamilyCarChassis
+  m_Name: CarChassis
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -236,6 +236,7 @@ GameObject:
   - component: {fileID: 324989263}
   - component: {fileID: 324989264}
   - component: {fileID: 324989266}
+  - component: {fileID: 324989267}
   m_Layer: 0
   m_Name: FamilyCar
   m_TagString: Untagged
@@ -285,11 +286,11 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 9db9336e9f17c9744847c5fe94c1650f, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -433,6 +434,18 @@ MonoBehaviour:
   Descend: 274
   Drag_Left: 276
   Drag_Right: 275
+--- !u!114 &324989267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000013904118194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c3d2ec721fc2ea47aaf6ae7d2fffaea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1000014255813804
 GameObject:
   m_ObjectHideFlags: 0

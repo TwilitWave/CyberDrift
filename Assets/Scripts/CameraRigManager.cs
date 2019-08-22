@@ -65,10 +65,14 @@ public class CameraRigManager : MonoBehaviour
 
     public void SwitchTo(Camera camera)
     {
+        if(camera == CurrentCamera) { return; }
+
         AllCamerasOff();
         ToggleCamera(camera, true);
         PreviousCamera = camera;
         CurrentCamera = camera;
+
+        Debug.Log(this.name + " : Switching to camera: " + CurrentCamera.ToString());
     }
 
     public void AllCamerasOff()

@@ -117,7 +117,7 @@ public class HoverController : MonoBehaviour
 
     private void DoHover()
     {
-
+        car_rb.MovePosition(new Vector3(car_rb.transform.position.x, hover_height, car_rb.transform.position.z));
     }
 
     private void ModifyHoverHeight(float amount)

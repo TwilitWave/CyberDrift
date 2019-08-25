@@ -25,6 +25,10 @@ public class HoverController : MonoBehaviour
     public float rotate_speed = 3f;
     public float max_rotate = 35f;
 
+    public float ascend_angle = -35f;
+    public float descend_angle = 35;
+    private float current_tilt = 0;
+
     private Rigidbody car_rb;
     private DriverActions driverActions;
     private HoverControlScheme controls;
@@ -39,11 +43,11 @@ public class HoverController : MonoBehaviour
         driverActions.Turn_Right.AddDefaultBinding(Key.D);
         driverActions.Turn_Right.AddDefaultBinding(InputControlType.LeftStickRight);
 
-        driverActions.Tilt_Backward.AddDefaultBinding(Key.DownArrow);
-        driverActions.Tilt_Backward.AddDefaultBinding(InputControlType.LeftTrigger);
+        driverActions.Tilt_Forward.AddDefaultBinding(Key.DownArrow);
+        driverActions.Tilt_Forward.AddDefaultBinding(InputControlType.LeftTrigger);
 
-        driverActions.Tilt_Forward.AddDefaultBinding(Key.UpArrow);
-        driverActions.Tilt_Forward.AddDefaultBinding(InputControlType.RightTrigger);
+        driverActions.Tilt_Backward.AddDefaultBinding(Key.UpArrow);
+        driverActions.Tilt_Backward.AddDefaultBinding(InputControlType.RightTrigger);
 
         driverActions.Accelerate.AddDefaultBinding(Key.W);
         driverActions.Accelerate.AddDefaultBinding(InputControlType.Action1);
@@ -85,10 +89,31 @@ public class HoverController : MonoBehaviour
 
             //ascend up and down
             ModifyHoverHeight(ascend_amount);
+            //set angle
+            DoTiltAngle(ascend_amount);
         }
 
         //turn left and right
         car_rb.AddRelativeTorque(0f, HoverControlScheme.InputStateToInt(controls.turn_input) * turn_speed, 0f);
+    }
+
+    private void DoTiltAngle(float ascend_amount)
+    {
+        if (driverActions.Tilt_Forward.IsPressed)
+        {
+            current_tilt = Mathf.Lerp(current_tilt, ascend_angle, Time.deltaTime);
+        }
+        else if (driverActions.Tilt_Backward.IsPressed)
+        {
+            current_tilt = Mathf.Lerp(current_tilt, descend_angle, Time.deltaTime);
+        }
+        else
+        {
+            current_tilt = Mathf.Lerp(current_tilt, 0, Time.deltaTime);
+        }
+
+        Debug.Log("Debug - Tilt angle " + current_tilt);
+        car_rb.transform.rotation.eulerAngles.Set(current_tilt, car_rb.transform.rotation.eulerAngles.y, car_rb.transform.rotation.eulerAngles.z);
     }
 
     private void Rotate()

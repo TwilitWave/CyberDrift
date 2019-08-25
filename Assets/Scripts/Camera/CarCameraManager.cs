@@ -6,7 +6,12 @@ using UnityEngine;
 public class CarCameraManager : MonoBehaviour
 {
 
+    public bool LookBackMode = false;
+
+
     private HoverControlScheme controls;
+
+
 
     private void Awake()
     {
@@ -18,14 +23,14 @@ public class CarCameraManager : MonoBehaviour
     {
         DoCamera();
 
-        if(Input.GetKeyDown(KeyCode.M))
-        {
-            CameraRigManager.Instance.SwitchTo(CameraRigManager.Camera.LookBehind);
-        }
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            CameraRigManager.Instance.SwitchTo(CameraRigManager.Camera.Back);
-        }
+        //if(Input.GetKeyDown(KeyCode.M))
+        //{
+        //    CameraRigManager.Instance.SwitchTo(CameraRigManager.Camera.LookBehind);
+        //}
+        //if (Input.GetKeyDown(KeyCode.N))
+        //{
+        //    CameraRigManager.Instance.SwitchTo(CameraRigManager.Camera.Back);
+        //}
         //else
         //{
         //    CameraRigManager.Instance.SwitchTo(CameraRigManager.Camera.Back);
@@ -36,26 +41,44 @@ public class CarCameraManager : MonoBehaviour
     void DoCamera()
     {
 
-      
-        if (controls.turn_input == HoverControlScheme.InputState.Positive)
+        if(Input.GetKeyDown(KeyCode.V))
         {
-            CameraRigManager.Instance.SwitchTo(CameraRigManager.Camera.Wide);
+            LookBackMode = true;
+            CameraRigManager.Instance.SwitchTo(CameraRigManager.Camera.LookBehind);
         }
-        else if (controls.turn_input == HoverControlScheme.InputState.Negative)
+        if (LookBackMode)
         {
-            CameraRigManager.Instance.SwitchTo(CameraRigManager.Camera.Right);
+            if (Input.GetKeyUp(KeyCode.V))
+            {
+                LookBackMode = false;
+
+                CameraRigManager.Instance.SwitchTo(CameraRigManager.Camera.Back);
+            }
         }
-        else if (controls.ascend_input == HoverControlScheme.InputState.Positive)
+        
+
+        if (!LookBackMode)
         {
-            CameraRigManager.Instance.SwitchTo(CameraRigManager.Camera.Down);
-        }
-        else if (controls.ascend_input == HoverControlScheme.InputState.Negative)
-        {
-            CameraRigManager.Instance.SwitchTo(CameraRigManager.Camera.Up);
-        }
-        else
-        {
-            CameraRigManager.Instance.SwitchTo(CameraRigManager.Camera.Back);
+            if (controls.turn_input == HoverControlScheme.InputState.Positive)
+            {
+                CameraRigManager.Instance.SwitchTo(CameraRigManager.Camera.Wide);
+            }
+            else if (controls.turn_input == HoverControlScheme.InputState.Negative)
+            {
+                CameraRigManager.Instance.SwitchTo(CameraRigManager.Camera.Right);
+            }
+            else if (controls.ascend_input == HoverControlScheme.InputState.Positive)
+            {
+                CameraRigManager.Instance.SwitchTo(CameraRigManager.Camera.Down);
+            }
+            else if (controls.ascend_input == HoverControlScheme.InputState.Negative)
+            {
+                CameraRigManager.Instance.SwitchTo(CameraRigManager.Camera.Up);
+            }
+            else
+            {
+                CameraRigManager.Instance.SwitchTo(CameraRigManager.Camera.Back);
+            }
         }
     }
 }

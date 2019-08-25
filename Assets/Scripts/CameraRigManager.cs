@@ -6,7 +6,7 @@ using Cinemachine;
 public class CameraRigManager : MonoBehaviour
 {
 
-    public enum Camera { Wide, Back, Left, Right, Up, Down }
+    public enum Camera { Wide, Back, Left, Right, Up, Down, LookBehind }
     public Camera CurrentCamera;
     private Camera PreviousCamera;
 
@@ -16,6 +16,8 @@ public class CameraRigManager : MonoBehaviour
     public CinemachineVirtualCamera Right;
     public CinemachineVirtualCamera Up;
     public CinemachineVirtualCamera Down;
+    public CinemachineVirtualCamera Lookbehind;
+
 
     private HashSet<CinemachineVirtualCamera> Cameras;
 

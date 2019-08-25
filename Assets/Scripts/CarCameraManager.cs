@@ -16,10 +16,25 @@ public class CarCameraManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        if(controls.turn_input == HoverControlScheme.InputState.Positive)
+        //selectGeneralCamera();
+
+        if(Input.GetKeyDown(KeyCode.M))
         {
-            CameraRigManager.Instance.SwitchTo(CameraRigManager.Camera.Left);
+            CameraRigManager.Instance.SwitchTo(CameraRigManager.Camera.LookBehind);
+        }
+        //else
+        //{
+        //    CameraRigManager.Instance.SwitchTo(CameraRigManager.Camera.Back);
+        //}
+       
+    }
+
+    void selectGeneralCamera()
+    {
+
+        if (controls.turn_input == HoverControlScheme.InputState.Positive)
+        {
+            CameraRigManager.Instance.SwitchTo(CameraRigManager.Camera.Wide);
         }
         else if (controls.turn_input == HoverControlScheme.InputState.Negative)
         {
@@ -37,6 +52,5 @@ public class CarCameraManager : MonoBehaviour
         {
             CameraRigManager.Instance.SwitchTo(CameraRigManager.Camera.Back);
         }
-
     }
 }

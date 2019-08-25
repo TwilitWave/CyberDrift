@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using InControl;
 
 [RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(HoverControlScheme))]
 [RequireComponent(typeof(HoverAudio))]
+[RequireComponent(typeof(HoverControlScheme))]
 
 public class HoverController : MonoBehaviour
 {
@@ -25,14 +26,43 @@ public class HoverController : MonoBehaviour
     public float max_rotate = 35f;
 
     private Rigidbody car_rb;
+    private DriverActions driverActions;
     private HoverControlScheme controls;
-    
-    
+
+    private void DoControlBindings()
+    {
+        driverActions = new DriverActions();
+
+        driverActions.Turn_Left.AddDefaultBinding(Key.A);
+        driverActions.Turn_Left.AddDefaultBinding(InputControlType.LeftStickLeft);
+
+        driverActions.Turn_Right.AddDefaultBinding(Key.D);
+        driverActions.Turn_Right.AddDefaultBinding(InputControlType.LeftStickRight);
+
+        driverActions.Tilt_Backward.AddDefaultBinding(Key.DownArrow);
+        driverActions.Tilt_Backward.AddDefaultBinding(InputControlType.LeftTrigger);
+
+        driverActions.Tilt_Forward.AddDefaultBinding(Key.UpArrow);
+        driverActions.Tilt_Forward.AddDefaultBinding(InputControlType.RightTrigger);
+
+        driverActions.Accelerate.AddDefaultBinding(Key.W);
+        driverActions.Accelerate.AddDefaultBinding(InputControlType.Action1);
+
+        driverActions.Reverse.AddDefaultBinding(Key.S);
+        driverActions.Reverse.AddDefaultBinding(InputControlType.Action4);
+
+        driverActions.Drift.AddDefaultBinding(Key.Space);
+        driverActions.Drift.AddDefaultBinding(InputControlType.Action2);
+
+        driverActions.Stall.AddDefaultBinding(Key.F);
+        driverActions.Stall.AddDefaultBinding(InputControlType.Action3);
+    }
 
     private void Awake()
     {
         car_rb = GetComponent<Rigidbody>();
         controls = GetComponent<HoverControlScheme>();
+        DoControlBindings();
     }
 
 
@@ -52,12 +82,6 @@ public class HoverController : MonoBehaviour
 
             //forward/backward
             ApplyThrust();
-
-            //rotate left and right
-           // Rotate();
-
-            //drag left and right 
-            //car_rb.AddRelativeForce(HoverControlScheme.InputStateToInt(controls.drag_input) * drag_speed, 0f, 0f);
 
             //ascend up and down
             ModifyHoverHeight(ascend_amount);
@@ -164,11 +188,11 @@ public class HoverController : MonoBehaviour
     {
         if (engine_on)
         {
-            if (Input.GetKey(controls.Forward))
+            if (driverActions.Accelerate.IsPressed)
             {
                 controls.power_input = HoverControlScheme.InputState.Positive;
             }
-            else if (Input.GetKey(controls.Backward))
+            else if (driverActions.Reverse.IsPressed)
             {
                 controls.power_input = HoverControlScheme.InputState.Negative;
             }
@@ -177,11 +201,11 @@ public class HoverController : MonoBehaviour
                 controls.power_input = HoverControlScheme.InputState.None;
             }
 
-            if (Input.GetKey(controls.Left))
+            if (driverActions.Turn_Left.IsPressed)
             {
                 controls.turn_input = HoverControlScheme.InputState.Negative;
             }
-            else if (Input.GetKey(controls.Right))
+            else if (driverActions.Turn_Right.IsPressed)
             {
                 controls.turn_input = HoverControlScheme.InputState.Positive;
             }
@@ -190,11 +214,11 @@ public class HoverController : MonoBehaviour
                 controls.turn_input = HoverControlScheme.InputState.None;
             }
 
-            if (Input.GetKey(controls.Ascend))
+            if (driverActions.Tilt_Forward)
             {
                 controls.ascend_input = HoverControlScheme.InputState.Positive;
             }
-            else if (Input.GetKey(controls.Descend))
+            else if (driverActions.Tilt_Backward.IsPressed)
             {
                 controls.ascend_input = HoverControlScheme.InputState.Negative;
             }
@@ -202,37 +226,12 @@ public class HoverController : MonoBehaviour
             {
                 controls.ascend_input = HoverControlScheme.InputState.None;
             }
-
-            if (Input.GetKey(controls.Rotate_Left))
-            {
-                controls.rotate_input = HoverControlScheme.InputState.Positive;
-            }
-            else if (Input.GetKey(controls.Rotate_Right))
-            {
-                controls.rotate_input = HoverControlScheme.InputState.Negative;
-            }
-            else
-            {
-                controls.rotate_input = HoverControlScheme.InputState.None;
-            }
-
-            if (Input.GetKey(controls.Drag_Left))
-            {
-                controls.drag_input = HoverControlScheme.InputState.Negative;
-            }
-            else if (Input.GetKey(controls.Drag_Right))
-            {
-                controls.drag_input = HoverControlScheme.InputState.Positive;
-            }
-            else
-            {
-                controls.drag_input = HoverControlScheme.InputState.None;
-            }
         }
 
 
-        if (Input.GetKeyDown(controls.Toggle_Engine))
+        if (driverActions.Stall.WasPressed)
         {
+            Debug.Log("Button pressed " + driverActions.Stall.Name);
             ToggleEngine();
         }
     }

@@ -67,7 +67,7 @@ public class CameraRigManager : MonoBehaviour
 
     public void SwitchTo(Camera camera)
     {
-        if(camera == CurrentCamera) { return; }
+        //if(camera == CurrentCamera) { return; }
 
         AllCamerasOff();
         ToggleCamera(camera, true);
@@ -110,6 +110,10 @@ public class CameraRigManager : MonoBehaviour
         else if(camera == Camera.Down)
         {
             Down.enabled = flag;
+        }
+        else if(camera == Camera.LookBehind)
+        {
+            Lookbehind.enabled = flag;
         }
     }
 

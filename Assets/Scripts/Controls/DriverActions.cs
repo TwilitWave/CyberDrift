@@ -23,8 +23,8 @@ public class DriverActions : PlayerActionSet
         Turn_Left = CreatePlayerAction("Turn Left");
         Turn_Right = CreatePlayerAction("Turn Right");
 
-        Tilt_Forward = CreatePlayerAction("Ascend");
-        Tilt_Backward = CreatePlayerAction("Descend");
+        Tilt_Backward = CreatePlayerAction("Ascend");
+        Tilt_Forward = CreatePlayerAction("Descend");
 
         Accelerate = CreatePlayerAction("Accelerate");
         Reverse = CreatePlayerAction("Reverse");

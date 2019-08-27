@@ -11,22 +11,22 @@ public class HoverController : MonoBehaviour
 {
     public bool engine_on = false;
 
-    public float thruster_speed = 90f;
+    public float thruster_speed = 50f;
     public float turn_speed = 5f;
 
     public float hover_force = 65f;
-    public float hover_height = 3.5f;
+    public float hover_height = 110f;
 
-    public float ascend_max = 60;
-    private float ascend_min = 2;
-    public float ascend_amount = 0.25f;
+    public float ascend_max = 550;
+    public float ascend_min = 100;
+    public float ascend_amount = 1f;
 
-    public float drag_speed = 5f;
+    public float drag_speed = 40f;
     public float rotate_speed = 3f;
     public float max_rotate = 35f;
 
-    public float ascend_angle = -15f;
-    public float descend_angle = 15;
+    public float ascend_angle = 35f;
+    public float descend_angle = -35;
     private float current_tilt = 0;
     public float tilt_speed = 0.05f;
 
@@ -100,11 +100,9 @@ public class HoverController : MonoBehaviour
 
     private void DoTiltAngle(float ascend_amount)
     {
-
-       
-
         if (driverActions.Tilt_Forward.IsPressed)
         {
+           
             current_tilt = Mathf.Lerp(current_tilt, ascend_angle, tilt_speed * Time.deltaTime);
          
         }
@@ -120,7 +118,7 @@ public class HoverController : MonoBehaviour
         }
 
         Debug.Log("Debug - Tilt angle " + current_tilt);
-        car_rb.transform.eulerAngles = new Vector3(current_tilt, car_rb.transform.rotation.eulerAngles.y, car_rb.transform.rotation.eulerAngles.z);
+        car_rb.transform.eulerAngles = new Vector3(current_tilt, car_rb.transform.rotation.eulerAngles.y, 0f);
 
     }
 
@@ -249,11 +247,12 @@ public class HoverController : MonoBehaviour
 
             if (driverActions.Tilt_Forward)
             {
-                controls.ascend_input = HoverControlScheme.InputState.Positive;
+                controls.ascend_input = HoverControlScheme.InputState.Negative;
+               
             }
             else if (driverActions.Tilt_Backward.IsPressed)
             {
-                controls.ascend_input = HoverControlScheme.InputState.Negative;
+                controls.ascend_input = HoverControlScheme.InputState.Positive;
             }
             else
             {

@@ -40,9 +40,13 @@ public class HoverController : MonoBehaviour
     public float Fast_modifier = 2.0f;
     public Speed Current_Speed = Speed.Normal;
 
+    public float Angvel_Break;
+
     private Rigidbody car_rb;
     private DriverActions driverActions;
     private HoverControlScheme controls;
+
+
 
     private void DoControlBindings()
     {
@@ -119,6 +123,30 @@ public class HoverController : MonoBehaviour
 
         //turn left and right
         car_rb.AddRelativeTorque(0f, HoverControlScheme.InputStateToInt(controls.turn_input) * turn_speed, 0f);
+       
+        DoAngularVelocityBreak();
+    }
+
+    void DoAngularVelocityBreak()
+    {
+       // Debug.Log("Rotation: " + car_rb.angularVelocity);
+        Vector3 aV = car_rb.angularVelocity;
+        Vector3 newAngVel = aV;
+        if (aV.y != 0)
+        {
+            float cal = Angvel_Break * Time.deltaTime;
+            float AngularBreak_val = aV.y < 0 ? cal : -cal;
+            //if (aV.y > 0)
+            //{
+            //    newAngVel.y = newAngVel.y - Angvel_Break * Time.deltaTime;
+            //}
+            //else
+            //{
+            //    newAngVel.y = newAngVel.y + Angvel_Break * Time.deltaTime;
+            //}
+            newAngVel.y = newAngVel.y + AngularBreak_val;
+        }
+        car_rb.angularVelocity = newAngVel;
     }
 
     private void DoTiltAngle(float ascend_amount)

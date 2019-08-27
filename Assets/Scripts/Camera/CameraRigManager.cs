@@ -6,7 +6,7 @@ using Cinemachine;
 public class CameraRigManager : MonoBehaviour
 {
 
-    public enum Camera { Wide, Back, Left, Right, Up, Down, LookBehind }
+    public enum Camera { Wide, Back, Left, Right, Up, Down, LookBehind, Dolly }
     public Camera CurrentCamera;
     private Camera PreviousCamera;
 
@@ -17,6 +17,7 @@ public class CameraRigManager : MonoBehaviour
     public CinemachineVirtualCamera Up;
     public CinemachineVirtualCamera Down;
     public CinemachineVirtualCamera Lookbehind;
+    public CinemachineVirtualCamera Dolly;
 
 
     private HashSet<CinemachineVirtualCamera> Cameras;
@@ -114,6 +115,10 @@ public class CameraRigManager : MonoBehaviour
         else if(camera == Camera.LookBehind)
         {
             Lookbehind.enabled = flag;
+        }
+        else if (camera == Camera.Dolly)
+        {
+            Dolly.enabled = flag;
         }
     }
 

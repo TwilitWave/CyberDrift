@@ -25,9 +25,10 @@ public class HoverController : MonoBehaviour
     public float rotate_speed = 3f;
     public float max_rotate = 35f;
 
-    public float ascend_angle = -35f;
-    public float descend_angle = 35;
+    public float ascend_angle = -15f;
+    public float descend_angle = 15;
     private float current_tilt = 0;
+    public float tilt_speed = 0.05f;
 
     private Rigidbody car_rb;
     private DriverActions driverActions;
@@ -99,21 +100,28 @@ public class HoverController : MonoBehaviour
 
     private void DoTiltAngle(float ascend_amount)
     {
+
+       
+
         if (driverActions.Tilt_Forward.IsPressed)
         {
-            current_tilt = Mathf.Lerp(current_tilt, ascend_angle, Time.deltaTime);
+            current_tilt = Mathf.Lerp(current_tilt, ascend_angle, tilt_speed * Time.deltaTime);
+         
         }
         else if (driverActions.Tilt_Backward.IsPressed)
         {
-            current_tilt = Mathf.Lerp(current_tilt, descend_angle, Time.deltaTime);
+            current_tilt = Mathf.Lerp(current_tilt, descend_angle, tilt_speed * Time.deltaTime);
+         
         }
         else
         {
-            current_tilt = Mathf.Lerp(current_tilt, 0, Time.deltaTime);
+            current_tilt = Mathf.Lerp(current_tilt, 0, tilt_speed * Time.deltaTime);
+            
         }
 
         Debug.Log("Debug - Tilt angle " + current_tilt);
-        car_rb.transform.rotation.eulerAngles.Set(current_tilt, car_rb.transform.rotation.eulerAngles.y, car_rb.transform.rotation.eulerAngles.z);
+        car_rb.transform.eulerAngles = new Vector3(current_tilt, car_rb.transform.rotation.eulerAngles.y, car_rb.transform.rotation.eulerAngles.z);
+
     }
 
     private void Rotate()

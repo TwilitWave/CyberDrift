@@ -40,10 +40,10 @@ public class CarCameraManager : MonoBehaviour
 
     void DoCamera()
     {
-        Debug.Log("ON1");
+      
         if (Input.GetKeyDown(KeyCode.V))
         {
-            Debug.Log("ON");
+           
             LookBackMode = true;
             CameraRigManager.Instance.SwitchTo(CameraRigManager.Camera.LookBehind);
         }
@@ -52,7 +52,7 @@ public class CarCameraManager : MonoBehaviour
             if (Input.GetKeyUp(KeyCode.V))
             {
                 LookBackMode = false;
-                Debug.Log("OFF");
+             
                 CameraRigManager.Instance.SwitchTo(CameraRigManager.Camera.Back);
             }
         }

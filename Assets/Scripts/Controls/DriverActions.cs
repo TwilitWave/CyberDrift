@@ -11,6 +11,9 @@ public class DriverActions : PlayerActionSet
     public PlayerAction Tilt_Forward;
     public PlayerAction Tilt_Backward;
 
+    public PlayerAction Rotate_Left;
+    public PlayerAction Rotate_Right;
+
     public PlayerAction Accelerate;
     public PlayerAction Reverse;
 
@@ -25,6 +28,9 @@ public class DriverActions : PlayerActionSet
 
         Tilt_Backward = CreatePlayerAction("Ascend");
         Tilt_Forward = CreatePlayerAction("Descend");
+
+        Rotate_Left = CreatePlayerAction("Rotate Left");
+        Rotate_Right = CreatePlayerAction("Rotate Right");
 
         Accelerate = CreatePlayerAction("Accelerate");
         Reverse = CreatePlayerAction("Reverse");

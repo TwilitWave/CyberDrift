@@ -12,6 +12,7 @@ public class HoverController : MonoBehaviour
     public bool engine_on = false;
 
     public float thruster_speed = 50f;
+    public float reverse_speed = 25f;
     public float turn_speed = 5f;
 
     public float hover_force = 65f;
@@ -22,13 +23,22 @@ public class HoverController : MonoBehaviour
     public float ascend_amount = 1f;
 
     public float drag_speed = 40f;
+
     public float rotate_speed = 3f;
     public float max_rotate = 35f;
+    private float current_rotate = 0;
+    private bool rotating = false;
 
     public float ascend_angle = 35f;
     public float descend_angle = -35;
     private float current_tilt = 0;
     public float tilt_speed = 0.05f;
+
+    public enum Speed { Slow, Normal, Fast };
+    public float Slow_modifier = 0.5f;
+    public float Normal_modifier = 1.0f;
+    public float Fast_modifier = 2.0f;
+    public Speed Current_Speed = Speed.Normal;
 
     private Rigidbody car_rb;
     private DriverActions driverActions;
@@ -49,6 +59,12 @@ public class HoverController : MonoBehaviour
 
         driverActions.Tilt_Backward.AddDefaultBinding(Key.UpArrow);
         driverActions.Tilt_Backward.AddDefaultBinding(InputControlType.RightTrigger);
+
+        driverActions.Rotate_Left.AddDefaultBinding(Key.Q);
+        driverActions.Rotate_Left.AddDefaultBinding(InputControlType.LeftBumper);
+
+        driverActions.Rotate_Right.AddDefaultBinding(Key.E);
+        driverActions.Rotate_Right.AddDefaultBinding(InputControlType.RightBumper);
 
         driverActions.Accelerate.AddDefaultBinding(Key.W);
         driverActions.Accelerate.AddDefaultBinding(InputControlType.Action1);
@@ -82,6 +98,9 @@ public class HoverController : MonoBehaviour
     {
         if (engine_on)
         {
+
+            CheckSpeedChange();
+
             //hover off ground
             DoHover();
 
@@ -92,6 +111,10 @@ public class HoverController : MonoBehaviour
             ModifyHoverHeight(ascend_amount);
             //set angle
             DoTiltAngle(ascend_amount);
+
+            Rotate();
+
+            car_rb.transform.eulerAngles = new Vector3(current_tilt, car_rb.transform.rotation.eulerAngles.y, current_rotate);
         }
 
         //turn left and right
@@ -117,38 +140,75 @@ public class HoverController : MonoBehaviour
             
         }
 
-        Debug.Log("Debug - Tilt angle " + current_tilt);
-        car_rb.transform.eulerAngles = new Vector3(current_tilt, car_rb.transform.rotation.eulerAngles.y, 0f);
-
     }
 
     private void Rotate()
     {
-        float car_angle = car_rb.transform.rotation.eulerAngles.z;
-        float calculated_angle = HoverControlScheme.InputStateToInt(controls.rotate_input) * rotate_speed;
+
+        //return back to original position
+        if (driverActions.Rotate_Left)
+        {
+
+        }
+        else if (driverActions.Rotate_Right)
+        {
+
+        }
+        else if (rotating == false)
+        {
+            current_rotate = Mathf.Lerp(current_rotate, 0, rotate_speed * Time.deltaTime);
+        }
+
         
-        if (car_angle > max_rotate)
-        {
-            //Debug.Log("Correcting rotation!");
-            //car_rb.angularVelocity = new Vector3(0, 0, 0);
-            car_rb.transform.eulerAngles.Set(car_rb.transform.eulerAngles.x, car_rb.transform.eulerAngles.y, max_rotate);
-        }
-        else if(car_angle < -1 * max_rotate)
-        {
-            //Debug.Log("Correcting rotation!");
-            //car_rb.angularVelocity = new Vector3(0, 0, 0);
-            car_rb.transform.eulerAngles.Set(car_rb.transform.eulerAngles.x, car_rb.transform.eulerAngles.y, -1 * max_rotate);
-        }
-        else
-        {
-            car_rb.AddRelativeTorque(0f, 0f, calculated_angle);
-        }
         
     }
 
     private void ApplyThrust()
     {
-        car_rb.AddRelativeForce(0f, 0f, HoverControlScheme.InputStateToInt(controls.power_input) * thruster_speed);
+        if (driverActions.Accelerate.IsPressed)
+        {
+            car_rb.AddRelativeForce(0f, 0f, GetSpeedModifier() * HoverControlScheme.InputStateToInt(controls.power_input) * thruster_speed);
+        }
+        else if (driverActions.Reverse.IsPressed)
+        {
+            car_rb.AddRelativeForce(0f, 0f, GetSpeedModifier() * HoverControlScheme.InputStateToInt(controls.power_input) * reverse_speed);
+        }
+        
+    }
+
+    private float GetSpeedModifier()
+    {
+        if (Current_Speed == Speed.Fast)
+        {
+            return Fast_modifier;
+        }
+        else if (Current_Speed == Speed.Normal)
+        {
+            return Normal_modifier;
+        }
+        else if(Current_Speed == Speed.Slow)
+        {
+            return Slow_modifier;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+    public void CheckSpeedChange()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1)){
+            Current_Speed = Speed.Slow;
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2)){
+            Current_Speed = Speed.Normal;
+
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            Current_Speed = Speed.Fast;
+        }
     }
 
     private void Deprecated_DoHover()

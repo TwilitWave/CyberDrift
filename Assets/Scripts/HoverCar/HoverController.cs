@@ -136,14 +136,7 @@ public class HoverController : MonoBehaviour
         {
             float cal = Angvel_Break * Time.deltaTime;
             float AngularBreak_val = aV.y < 0 ? cal : -cal;
-            //if (aV.y > 0)
-            //{
-            //    newAngVel.y = newAngVel.y - Angvel_Break * Time.deltaTime;
-            //}
-            //else
-            //{
-            //    newAngVel.y = newAngVel.y + Angvel_Break * Time.deltaTime;
-            //}
+            
             newAngVel.y = newAngVel.y + AngularBreak_val;
         }
         car_rb.angularVelocity = newAngVel;

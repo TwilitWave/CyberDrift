@@ -8,9 +8,11 @@ public class CivilianSplineTweener : MonoBehaviour
 
     private Spline spline;
     private SplineFollower follower;
-    [Range(0,0.01f)]
+    [Range(0,0.03f)]
     public float speed = 0.001f;
     public bool RandomSpeed = true;
+    public bool loop = true;
+    private bool playedOnce = false;
 
     private void Awake()
     {
@@ -23,19 +25,38 @@ public class CivilianSplineTweener : MonoBehaviour
         }
     }
 
+    public void Reset()
+    {
+        playedOnce = false;
+        follower.percentage = 0;
+    }
+
     private void Update()
     {
-        float percentage = follower.percentage;
-
-        if (percentage + speed > 1.0f)
+        if(!playedOnce)
         {
-            percentage = 0;
-        }
-        else
-        {
-            percentage += speed;
+            float percentage = follower.percentage;
+
+            if (percentage + speed > 1.0f)
+            {
+                if (loop)
+                {
+                    percentage = 0;
+                }
+                else
+                {
+                    playedOnce = true;
+                }
+
+            }
+            else
+            {
+                percentage += speed;
+            }
+
+            follower.percentage = percentage;
         }
 
-        follower.percentage = percentage;
+        
     }
 }

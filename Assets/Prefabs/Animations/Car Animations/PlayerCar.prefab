@@ -1724,15 +1724,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerCar
       objectReference: {fileID: 0}
+    - target: {fileID: 1218787654614192300, guid: 56e96bc9fd6b56f4c972ffd7b7703e07,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4447136815610207743, guid: 56e96bc9fd6b56f4c972ffd7b7703e07,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.000015258789
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4447136815610207743, guid: 56e96bc9fd6b56f4c972ffd7b7703e07,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.000030517578
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4447136815610207743, guid: 56e96bc9fd6b56f4c972ffd7b7703e07,
         type: 3}

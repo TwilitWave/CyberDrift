@@ -8,7 +8,7 @@ public class CarSplineTweener : MonoBehaviour
 
     private Spline spline;
     private SplineFollower follower;
-    [Range(0,0.001f)]
+    [Range(0,0.01f)]
     public float speed = 0.001f;
     public bool RandomSpeed = true;
     public bool loop = true;

@@ -6,6 +6,8 @@ using Pixelplacement;
 public class CopAnimSleep : MonoBehaviour
 {
     public float Sleep_Seconds = 4f;
+  //  public Animator anm;
+    public Animation aaa;
 
     IEnumerator LockObjectForTime(float time)
     {
@@ -20,5 +22,6 @@ public class CopAnimSleep : MonoBehaviour
     private void Awake()
     {
             StartCoroutine(LockObjectForTime(Sleep_Seconds));
+       
     }
 }

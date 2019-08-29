@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Pixelplacement;
 
-public class CivilianSplineTweener : MonoBehaviour
+public class CarSplineTweener : MonoBehaviour
 {
 
     private Spline spline;
@@ -13,6 +13,7 @@ public class CivilianSplineTweener : MonoBehaviour
     public bool RandomSpeed = true;
     public bool loop = true;
     private bool playedOnce = false;
+    public GameObject trails;
 
     private void Awake()
     {

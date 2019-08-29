@@ -13,7 +13,7 @@ public class CopAnimSleep : MonoBehaviour
         this.gameObject.GetComponentInChildren<Spline>().enabled = false;
        yield return new WaitForSeconds(time);
        this.gameObject.GetComponentInChildren<Spline>().enabled = true;
-        this.gameObject.GetComponent<CivilianSplineTweener>().Reset();
+        this.gameObject.GetComponent<CarSplineTweener>().Reset();
 
     }
 

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8919072917482054076}
   - component: {fileID: 3293635967267574275}
   m_Layer: 0
-  m_Name: CivilianCar
+  m_Name: CivCarModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 536d73fdd74709b4fbcc791af7f70f78, type: 2}
+  - {fileID: 2100000, guid: 2062b6d0a7a2d4f46b4689198aedadd9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -140,7 +140,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2ef578b6849aae048a3c3770a75a2799, type: 2}
+  - {fileID: 2100000, guid: 720c67a5153a0bb47841fb1060132bd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -233,7 +233,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2ef578b6849aae048a3c3770a75a2799, type: 2}
+  - {fileID: 2100000, guid: 720c67a5153a0bb47841fb1060132bd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
